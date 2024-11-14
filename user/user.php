@@ -1,26 +1,123 @@
-<?php include('../components/user-header.php'); ?>
+<?php include("../components/user-header.php"); ?>
 
-<main>
-    <div class="container-fluid px-4">
-        <h1 class="mt-4">Dashboard</h1>
-        <ol class="breadcrumb mb-4">
-            <li class="breadcrumb-item active">Dashboard</li>
-        </ol>
 
-        <div class="row">
-            <div class="col-sm-3 mb-3">
-                <div class="card">
-                    <img class="card-img-top" src="../image/profile/profile1.png" alt="image">
-                    <div class="card-body">
-                        <h5 class="card-title text-uppercase">card title</h5>
-                        <p class="card-text">Lorem ipsum dolor sit, amet consectetur adipisicing elit.</p>
-                        <a href="#" class="btn btn-primary">button</a>
-                    </div>
+<!-- Main Content -->
+<div id="content">
+
+    <!-- Topbar -->
+    <?php include("../components/topbar.php"); ?>
+    <!-- End of Topbar -->
+
+    <!-- Begin Page Content -->
+    <div class="container-fluid">
+
+        <!-- Page Heading -->
+        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
+        </div>
+
+
+
+                <!-- DataTable -->
+                <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Position</th>
+                                <th>Office</th>
+                                <th>Age</th>
+                                <th>Start date</th>
+                                <th>Salary</th>
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <th>Name</th>
+                                <th>Position</th>
+                                <th>Office</th>
+                                <th>Age</th>
+                                <th>Start date</th>
+                                <th>Salary</th>
+                            </tr>
+                        </tfoot>
+                        <tbody>
+                            <tr>
+                                <td>Tiger Nixon</td>
+                                <td>System Architect</td>
+                                <td>Edinburgh</td>
+                                <td>61</td>
+                                <td>2011/04/25</td>
+                                <td>$320,800</td>
+                            </tr>
+                            <tr>
+                                <td>Garrett Winters</td>
+                                <td>Accountant</td>
+                                <td>Tokyo</td>
+                                <td>63</td>
+                                <td>2011/07/25</td>
+                                <td>$170,750</td>
+                            </tr>
+                            <tr>
+                                <td>Shad Decker</td>
+                                <td>Regional Director</td>
+                                <td>Edinburgh</td>
+                                <td>51</td>
+                                <td>2008/11/13</td>
+                                <td>$183,000</td>
+                            </tr>
+                            <tr>
+                                <td>Michael Bruce</td>
+                                <td>Javascript Developer</td>
+                                <td>Singapore</td>
+                                <td>29</td>
+                                <td>2011/06/27</td>
+                                <td>$183,000</td>
+                            </tr>
+                            <tr>
+                                <td>Donna Snider</td>
+                                <td>Customer Support</td>
+                                <td>New York</td>
+                                <td>27</td>
+                                <td>2011/01/25</td>
+                                <td>$112,000</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
-    </div>
-</main>
 
-<?php include('../components/footer.php'); ?>
-<?php include('../components/scripts.php'); ?>
+
+    </div>
+    <!-- /.container-fluid -->
+
+</div>
+<!-- End of Main Content -->
+
+<!-- Footer -->
+<?php include("../components/footer.php"); ?>
+<!-- End of Footer -->
+
+</div>
+<!-- End of Content Wrapper -->
+
+</div>
+<!-- End of Page Wrapper -->
+
+<?php include("../components/scripts.php"); ?>
+<script>
+    // Call the dataTables jQuery plugin
+    $(document).ready(function() {
+        $('#dataTable').DataTable();
+        
+    });
+</script>
+</body>
+
+</html>
