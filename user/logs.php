@@ -1,4 +1,9 @@
-<?php include('../components/user-header.php'); ?>
+<?php 
+    include('../components/user-header.php'); 
+
+    // FETCH ALL DATA OF ADMIN LOGS
+    $user_logs = $connForLogs->query("SELECT * FROM `user_logs`")->fetchAll(PDO::FETCH_ASSOC);
+?>
 
 <main>
     <div class="container-fluid px-4">
@@ -16,57 +21,32 @@
                 <table id="datatablesSimple">
                     <thead>
                         <tr>
-                            <th>Name</th>
-                            <th>Position</th>
-                            <th>Office</th>
-                            <th>Age</th>
-                            <th>Start date</th>
-                            <th>Salary</th>
+                            <th>#</th>
+                            <th>Email</th>
+                            <th>Activity</th>
+                            <th>Timestamp</th>
                         </tr>
                     </thead>
                     <tfoot>
                         <tr>
-                            <th>Name</th>
-                            <th>Position</th>
-                            <th>Office</th>
-                            <th>Age</th>
-                            <th>Start date</th>
-                            <th>Salary</th>
+                            <th>#</th>
+                            <th>Email</th>
+                            <th>Activity</th>
+                            <th>Timestamp</th>
                         </tr>
                     </tfoot>
                     <tbody>
-                        <tr>
-                            <td>Tiger Nixon</td>
-                            <td>System Architect</td>
-                            <td>Edinburgh</td>
-                            <td>61</td>
-                            <td>2011/04/25</td>
-                            <td>$320,800</td>
-                        </tr>
-                        <tr>
-                            <td>Garrett Winters</td>
-                            <td>Accountant</td>
-                            <td>Tokyo</td>
-                            <td>63</td>
-                            <td>2011/07/25</td>
-                            <td>$170,750</td>
-                        </tr>
-                        <tr>
-                            <td>Ashton Cox</td>
-                            <td>Junior Technical Author</td>
-                            <td>San Francisco</td>
-                            <td>66</td>
-                            <td>2009/01/12</td>
-                            <td>$86,000</td>
-                        </tr>
-                        <tr>
-                            <td>Donna Snider</td>
-                            <td>Customer Support</td>
-                            <td>New York</td>
-                            <td>27</td>
-                            <td>2011/01/25</td>
-                            <td>$112,000</td>
-                        </tr>
+                        <?php
+                            $count = 1;
+                            foreach ($user_logs as $logs):
+                            ?>
+                            <tr>
+                                <td><?php echo $count++; ?></td>
+                                <td><?php echo ($logs['email']); ?></td>
+                                <td><?php echo ($logs['activity_type']); ?></td>
+                                <td><?php echo ($logs['timestamp']); ?></td>
+                            </tr>
+                        <?php endforeach; ?>
                     </tbody>
                 </table>
             </div>
