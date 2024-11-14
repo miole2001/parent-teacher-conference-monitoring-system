@@ -20,7 +20,7 @@ include ('../components/alerts.php');
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>ADMIN DASHBOARD | AM&POS</title>
+    <title>ADMIN DASHBOARD | PTCMS</title>
 
     <!-- FONTAWESOME CSS-->
     <link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
