@@ -115,8 +115,6 @@ $admin_logs = $connForLogs->query("SELECT * FROM `admin_logs`")->fetchAll(PDO::F
 
 <script>
     // Delete confirmation
-    $(document).ready(function() {
-        $('#dataTable').DataTable();
         $('.delete-btn').on('click', function() {
             const form = $(this).closest('.delete-form');
             const reviewId = form.find('input[name="delete_id"]').val();
@@ -136,7 +134,6 @@ $admin_logs = $connForLogs->query("SELECT * FROM `admin_logs`")->fetchAll(PDO::F
                 }
             });
         });
-    });
 </script>
 
 </body>

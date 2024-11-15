@@ -117,8 +117,6 @@
 
 <script>
     // Delete confirmation
-    $(document).ready(function() {
-        $('#dataTable').DataTable();
         $('.delete-btn').on('click', function() {
             const form = $(this).closest('.delete-form');
             const reviewId = form.find('input[name="delete_id"]').val();
@@ -138,7 +136,6 @@
                 }
             });
         });
-    });
 </script>
 </body>
 

@@ -79,6 +79,14 @@ include ('../components/alerts.php');
                 </a>
             </li>
 
+            <!-- user account page -->
+            <li class="nav-item">
+                <a class="nav-link" href="user-accounts.php">
+                    <i class="fas fa-fw fa-user"></i>
+                    <span>User Accounts</span>
+                </a>
+            </li>
+            
             <!-- Divider -->
             <hr class="sidebar-divider">
 
@@ -104,7 +112,7 @@ include ('../components/alerts.php');
 
             <!-- logout -->
             <li class="nav-item">
-                <a class="nav-link" href="../logout.php">
+                <a class="nav-link" href="#" id="logout">
                     <i class="fas fa-fw fa-table"></i>
                     <span>Logout</span></a>
             </li>

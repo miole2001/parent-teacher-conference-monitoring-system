@@ -84,13 +84,6 @@
 <!-- End of Page Wrapper -->
 
 <?php include("../components/scripts.php"); ?>
-<script>
-    // Call the dataTables jQuery plugin
-    $(document).ready(function() {
-        $('#dataTable').DataTable();
-        
-    });
-</script>
 </body>
 
 </html>
