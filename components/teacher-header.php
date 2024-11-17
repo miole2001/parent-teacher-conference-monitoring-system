@@ -20,7 +20,7 @@ include ('../components/alerts.php');
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>ADMIN DASHBOARD | PTCMS</title>
+    <title>TEACHER DASHBOARD | PTCMS</title>
 
     <!-- FONTAWESOME CSS-->
     <link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -58,9 +58,9 @@ include ('../components/alerts.php');
 
             <!-- analytics page -->
             <li class="nav-item active">
-                <a class="nav-link" href="admin.php">
+                <a class="nav-link" href="user.php">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <span>Dashboard</span></a>
+                    <span>dashboard</span></a>
             </li>
 
             <!-- Divider -->
@@ -79,22 +79,6 @@ include ('../components/alerts.php');
                 </a>
             </li>
 
-            <!-- parent accounts page -->
-            <li class="nav-item">
-                <a class="nav-link" href="parent-accounts.php">
-                    <i class="fas fa-fw fa-user"></i>
-                    <span>Parent Accounts</span>
-                </a>
-            </li>
-
-            <!-- teacher accounts page -->
-            <li class="nav-item">
-                <a class="nav-link" href="teacher-accounts.php">
-                    <i class="fas fa-fw fa-user"></i>
-                    <span>Teacher Accounts</span>
-                </a>
-            </li>
-            
             <!-- Divider -->
             <hr class="sidebar-divider">
 
@@ -103,26 +87,11 @@ include ('../components/alerts.php');
                 Logs
             </div>
 
-
-            <!-- admin logs page -->
+            <!-- logs page -->
             <li class="nav-item">
-                <a class="nav-link" href="admin-logs.php">
+                <a class="nav-link" href="my-logs.php">
                     <i class="fas fa-fw fa-chart-area"></i>
-                    <span>My Logs</span></a>
-            </li>
-
-            <!-- parent logs page -->
-            <li class="nav-item">
-                <a class="nav-link" href="parent-logs.php">
-                    <i class="fas fa-fw fa-table"></i>
-                    <span>Parent Logs</span></a>
-            </li>
-
-            <!-- teacher logs page -->
-            <li class="nav-item">
-                <a class="nav-link" href="teacher-logs.php">
-                    <i class="fas fa-fw fa-table"></i>
-                    <span>Teacher Logs</span></a>
+                    <span>Logs</span></a>
             </li>
 
             <!-- logout -->

@@ -5,11 +5,11 @@ include('../components/admin-header.php');
 if (isset($_POST['delete_account'])) {
     $delete_id = $_POST['delete_id'];
 
-    $verify_delete = $connForAccounts->prepare("SELECT * FROM `user_account` WHERE id = ?");
+    $verify_delete = $connForAccounts->prepare("SELECT * FROM `teachers` WHERE id = ?");
     $verify_delete->execute([$delete_id]);
 
     if ($verify_delete->rowCount() > 0) {
-        $delete_account = $connForAccounts->prepare("DELETE FROM `user_account` WHERE id = ?");
+        $delete_account = $connForAccounts->prepare("DELETE FROM `teachers` WHERE id = ?");
         if ($delete_account->execute([$delete_id])) {
             $success_msg[] = 'Account deleted!';
         } else {
@@ -20,7 +20,7 @@ if (isset($_POST['delete_account'])) {
     }
 }
 
-$user_accounts = $connForAccounts->query("SELECT * FROM `user_account` WHERE user_type = 'user'")->fetchAll(PDO::FETCH_ASSOC);
+$teacher_accounts = $connForAccounts->query("SELECT * FROM `teachers`")->fetchAll(PDO::FETCH_ASSOC);
 
 ?>
 
@@ -63,7 +63,7 @@ $user_accounts = $connForAccounts->query("SELECT * FROM `user_account` WHERE use
                         <tbody>
                             <?php
                             $count = 1;
-                            foreach ($user_accounts as $account):
+                            foreach ($teacher_accounts as $account):
                             ?>
                                 <tr>
                                     <td><?php echo $count++; ?></td>

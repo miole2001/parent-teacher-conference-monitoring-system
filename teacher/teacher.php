@@ -1,4 +1,4 @@
-<?php include("../components/user-header.php"); ?>
+<?php include("../components/teacher-header.php"); ?>
 
 
 <!-- Main Content -->

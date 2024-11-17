@@ -1,54 +1,93 @@
 <?php
-// to display errors
+// Display errors for debugging
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-// database connection
+// Database connection
 include 'connection.php';
-
-include ('./components/alerts.php');
-
+include './components/alerts.php';
 
 $warning_msg = []; // Initialize the warning message array
 
 if (isset($_POST['submit'])) {
-    $email = $_POST['email'];
-    $pass = $_POST['password'];
+    $email = trim($_POST['email']);
+    $pass = trim($_POST['password']);
+    $role = trim($_POST['role']); // Role selection for teacher or parent
 
-    // Prepare SQL statement to fetch user by email
-    $verify_user = $connForAccounts->prepare("SELECT * FROM `user_account` WHERE email = ? LIMIT 1");
-    $verify_user->execute([$email]);
+    if (!empty($email) && !empty($pass)) {
+        // Check if the user is an admin first
+        $verify_admin = $connForAccounts->prepare("SELECT * FROM `admin` WHERE email = ? LIMIT 1");
+        $verify_admin->execute([$email]);
 
-    if ($verify_user->rowCount() > 0) {
-        $fetch = $verify_user->fetch(PDO::FETCH_ASSOC);
-        $user_type = $fetch['user_type'];
-        $action_type = 'Login';
+        if ($verify_admin->rowCount() > 0) {
+            $fetch = $verify_admin->fetch(PDO::FETCH_ASSOC);
 
-        // Log the attempt
-        if ($user_type === 'admin') {
-            $log_stmt = $connForLogs->prepare("INSERT INTO admin_logs (email, activity_type, user_type) VALUES (?, ?, ?)");
-            $log_stmt->execute([$email, $action_type, $user_type]);
-            setcookie('user_id', $fetch['id'], time() + 60 * 60 * 24 * 30, '/');
-            if ($verify_user) {
+            // Verify admin password
+            if (password_verify($pass, $fetch['password'])) {
+                // Log admin login activity
+                $action_type = 'Login';
+                $log_stmt = $connForLogs->prepare("INSERT INTO admin_logs (email, activity_type, user_type) VALUES (?, ?, 'admin')");
+                $log_stmt->execute([$email, $action_type]);
+
+                // Set cookie and redirect to admin dashboard
+                setcookie('user_id', $fetch['id'], time() + 60 * 60 * 24 * 30, '/');
                 header('Location: admin/admin.php');
                 exit();
-            }
-        } else if ($user_type === 'user'){
-            $log_stmt = $connForLogs->prepare("INSERT INTO user_logs (email, activity_type, user_type) VALUES (?, ?, ?)");
-            $log_stmt->execute([$email, $action_type, $user_type]);
-            if ($verify_user) {
-                setcookie('user_id', $fetch['id'], time() + 60 * 60 * 24 * 30, '/');
-                header('Location: user/user.php');
-                exit();
+            } else {
+                $warning_msg[] = 'Incorrect admin password!';
             }
         } else {
-
-        }
+            // Check the selected role (teacher or parent)
+            if ($role === 'teacher') {
+                // Query the teachers table
+                $verify_user = $connForAccounts->prepare("SELECT * FROM `teachers` WHERE email = ? LIMIT 1");
+            } elseif ($role === 'parent') {
+                // Query the parents table
+                $verify_user = $connForAccounts->prepare("SELECT * FROM `parents` WHERE email = ? LIMIT 1");
             } else {
-        $warning_msg[] = 'Incorrect email!';
+                $warning_msg[] = 'Invalid role selected!';
+            }
+
+            if (isset($verify_user)) {
+                $verify_user->execute([$email]);
+
+                if ($verify_user->rowCount() > 0) {
+                    $fetch = $verify_user->fetch(PDO::FETCH_ASSOC);
+
+                    // Verify the password
+                    if (password_verify($pass, $fetch['password'])) {
+                        $action_type = 'Login';
+
+                        // Log the activity and redirect
+                        if ($role === 'teacher') {
+                            $log_stmt = $connForLogs->prepare("INSERT INTO teacher_logs (email, activity_type, user_type) VALUES (?, ?, ?)");
+                            $log_stmt->execute([$email, $action_type, 'teacher']);
+
+                            setcookie('user_id', $fetch['id'], time() + 60 * 60 * 24 * 30, '/');
+                            header('Location: teacher/teacher.php');
+                            exit();
+                        } elseif ($role === 'parent') {
+                            $log_stmt = $connForLogs->prepare("INSERT INTO parent_logs (email, activity_type, user_type) VALUES (?, ?, ?)");
+                            $log_stmt->execute([$email, $action_type, 'parent']);
+
+                            setcookie('user_id', $fetch['id'], time() + 60 * 60 * 24 * 30, '/');
+                            header('Location: parent/parent.php');
+                            exit();
+                        }
+                    } else {
+                        $warning_msg[] = 'Incorrect password!';
+                    }
+                } else {
+                    $warning_msg[] = 'No account found with this email!';
+                }
+            }
+        }
+    } else {
+        $warning_msg[] = 'Please fill in all fields!';
     }
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
@@ -67,6 +106,14 @@ if (isset($_POST['submit'])) {
             <div class="input-box">
                 <input type="password" name="password" placeholder="Create password" required>
             </div>
+            <div class="input-box">
+            <label for="role">Role:</label>
+        <select name="role" id="role" required>
+            <option value="teacher">Teacher</option>
+            <option value="parent">Parent</option>
+        </select>
+            </div>
+
             <div class="input-box button">
                 <input type="submit" name="submit" value="Login">
             </div>

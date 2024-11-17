@@ -19,14 +19,14 @@ if (isset($_POST['submit'])) {
     $pass = password_hash($_POST['password'], PASSWORD_DEFAULT);
     $c_pass = password_verify($_POST['confirm-password'], $pass);
 
-    $verify_email = $connForAccounts->prepare("SELECT * FROM `user_account` WHERE email = ?");
+    $verify_email = $connForAccounts->prepare("SELECT * FROM `parents` WHERE email = ?");
     $verify_email->execute([$email]);
 
     if ($verify_email->rowCount() > 0) {
         $warning_msg[] = 'Email already taken!';
     } else {
         if ($c_pass == 1) {
-            $insert_user = $connForAccounts->prepare("INSERT INTO `user_account`(image, name, email, password, user_type) VALUES(?,?,?,?,'user')");
+            $insert_user = $connForAccounts->prepare("INSERT INTO `parents`(image, name, email, password) VALUES(?,?,?,?)");
             $insert_user->execute([$image, $name, $email, $pass]);
             $success_msg[] = 'Registered successfully!';
             // Redirect after the alert is shown
@@ -50,7 +50,7 @@ if (isset($_POST['submit'])) {
         <h2>Registration</h2>
         <form action="#" method="POST" enctype="multipart/form-data">
             <div class="input-box">
-                <input type="file" name="image" placeholder="Enter your name" required>
+                <input type="file" name="image" required>
             </div>
             <div class="input-box">
                 <input type="text" name="name" placeholder="Enter your name" required>

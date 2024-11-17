@@ -1,7 +1,7 @@
 <?php 
-    include("../components/admin-header.php"); 
-    
-    $select_user = $connForAccounts->prepare("SELECT * FROM `admin` WHERE id = ? LIMIT 1");
+    include("../components/teacher-header.php"); 
+
+    $select_user = $connForAccounts->prepare("SELECT * FROM `teachers` WHERE id = ? LIMIT 1");
     $select_user->execute([$user_id]);
     $user = $select_user->fetch(PDO::FETCH_ASSOC);
 ?>

@@ -1,29 +1,8 @@
 <?php 
+    include("../components/parent-header.php"); 
 
-    include("../components/admin-header.php"); 
-
-    // HANDLE DELETE REQUEST
-    if (isset($_POST['delete_logs'])) {
-        $delete_id = $_POST['delete_id'];
-
-        $verify_delete = $connForLogs->prepare("SELECT * FROM `user_logs` WHERE id = ?");
-        $verify_delete->execute([$delete_id]);
-
-        if ($verify_delete->rowCount() > 0) {
-            $delete_logs = $connForLogs->prepare("DELETE FROM `user_logs` WHERE id = ?");
-            if ($delete_logs->execute([$delete_id])) {
-                $success_msg[] = 'Log deleted!';
-            } else {
-                $error_msg[] = 'Error deleting log.';
-            }
-        } else {
-            $warning_msg[] = 'Log already deleted!';
-        }
-    }
-    
     // FETCH ALL DATA OF ADMIN LOGS
-    $user_logs = $connForLogs->query("SELECT * FROM `user_logs`")->fetchAll(PDO::FETCH_ASSOC);
-    
+    $user_logs = $connForLogs->query("SELECT * FROM `parent_logs`")->fetchAll(PDO::FETCH_ASSOC);
 
 ?>
 
@@ -59,7 +38,6 @@
                                 <th>Email</th>
                                 <th>Activity</th>
                                 <th>Timestamp</th>
-                                <th>Action</th>
                             </tr>
                         </thead>
                         <tfoot>
@@ -68,7 +46,6 @@
                                 <th>Email</th>
                                 <th>Activity</th>
                                 <th>Timestamp</th>
-                                <th>Action</th>
                             </tr>
                         </tfoot>
                         <tbody>
@@ -81,13 +58,6 @@
                                     <td><?php echo ($logs['email']); ?></td>
                                     <td><?php echo ($logs['activity_type']); ?></td>
                                     <td><?php echo ($logs['timestamp']); ?></td>
-                                    <td>
-                                        <form method="POST" action="" class="delete-form">
-                                            <input type="hidden" name="delete_id" value="<?php echo ($logs['id']); ?>">
-                                            <input type="hidden" name="delete_logs" value="1">
-                                            <button type="button" class="btn btn-danger btn-sm delete-btn">Delete</button>
-                                        </form>
-                                    </td>
                                 </tr>
                             <?php endforeach; ?>
                         </tbody>
@@ -114,29 +84,6 @@
 <!-- End of Page Wrapper -->
 
 <?php include("../components/scripts.php"); ?>
-
-<script>
-    // Delete confirmation
-        $('.delete-btn').on('click', function() {
-            const form = $(this).closest('.delete-form');
-            const reviewId = form.find('input[name="delete_id"]').val();
-
-            Swal.fire({
-                title: 'Are you sure?',
-                text: "This action cannot be undone!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, delete it!'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    console.log("Deleting log ID: " + reviewId); // Debug log
-                    form.submit(); // Submit the form if confirmed
-                }
-            });
-        });
-</script>
 </body>
 
 </html>
