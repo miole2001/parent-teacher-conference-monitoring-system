@@ -108,10 +108,10 @@ if (isset($_POST['submit'])) {
             </div>
             <div class="input-box">
             <label for="role">Role:</label>
-        <select name="role" id="role" required>
-            <option value="teacher">Teacher</option>
-            <option value="parent">Parent</option>
-        </select>
+            <select name="role" id="role" required>
+                <option value="teacher">Teacher</option>
+                <option value="parent">Parent</option>
+            </select>
             </div>
 
             <div class="input-box button">
