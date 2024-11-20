@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Nov 17, 2024 at 07:12 PM
+-- Generation Time: Nov 20, 2024 at 03:49 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.0.28
 
@@ -41,7 +41,7 @@ CREATE TABLE `admin` (
 --
 
 INSERT INTO `admin` (`id`, `image`, `name`, `email`, `password`, `date_registered`) VALUES
-(1, 'profile1.png', 'admin', 'admin@gmail.com', '$2y$10$zJ48m8jR2n7ZUqWCK9vfMO75KfYIoOrxOvY/guAt6kACjLXKjwfly', '2024-11-18 00:57:36');
+(2, 'profile1.png', 'administrator', 'admin@gmail.com', '$2y$10$ZlGxxpAp/DnPSE4FyK8JiOOkx.d1e2PnKRCT0u7B4v99rfzS.1fjW', '2024-11-18 00:57:36');
 
 -- --------------------------------------------------------
 
@@ -53,6 +53,7 @@ CREATE TABLE `parents` (
   `id` int(11) NOT NULL,
   `image` varchar(255) NOT NULL,
   `name` varchar(80) NOT NULL,
+  `student_name` varchar(100) NOT NULL,
   `email` varchar(100) NOT NULL,
   `password` varchar(100) NOT NULL,
   `date_registered` datetime NOT NULL DEFAULT current_timestamp()
@@ -62,9 +63,8 @@ CREATE TABLE `parents` (
 -- Dumping data for table `parents`
 --
 
-INSERT INTO `parents` (`id`, `image`, `name`, `email`, `password`, `date_registered`) VALUES
-(1, 'profile1.png', 'parent', 'parent@gmail.com', '$2y$10$zJ48m8jR2n7ZUqWCK9vfMO75KfYIoOrxOvY/guAt6kACjLXKjwfly', '2024-11-18 00:56:41'),
-(2, 'profile2.png', 'test', 'test@gmail.com', '$2y$10$KgMDTG1gRy3nu4DW9PLGU.e8/MjduBubV2B9foNJVyM2CgqyON46a', '2024-11-18 01:34:08');
+INSERT INTO `parents` (`id`, `image`, `name`, `student_name`, `email`, `password`, `date_registered`) VALUES
+(1, 'profile1.png', 'parent', 'John Doe', 'parent@gmail.com', '$2y$10$zJ48m8jR2n7ZUqWCK9vfMO75KfYIoOrxOvY/guAt6kACjLXKjwfly', '2024-11-18 00:56:41');
 
 -- --------------------------------------------------------
 
@@ -86,7 +86,8 @@ CREATE TABLE `teachers` (
 --
 
 INSERT INTO `teachers` (`id`, `image`, `name`, `email`, `password`, `date_registered`) VALUES
-(1, 'profile1.png', 'teacher', 'teacher@gmail.com', '$2y$10$zJ48m8jR2n7ZUqWCK9vfMO75KfYIoOrxOvY/guAt6kACjLXKjwfly', '2024-11-18 00:56:54');
+(1, 'profile1.png', 'teacher', 'teacher@gmail.com', '$2y$10$zJ48m8jR2n7ZUqWCK9vfMO75KfYIoOrxOvY/guAt6kACjLXKjwfly', '2024-11-18 00:56:54'),
+(5, 'profile1.png', 'teacher1', 'teacher1@gmail.com', '$2y$10$zJ48m8jR2n7ZUqWCK9vfMO75KfYIoOrxOvY/guAt6kACjLXKjwfly', '2024-11-18 00:56:54');
 
 --
 -- Indexes for dumped tables
@@ -118,7 +119,7 @@ ALTER TABLE `teachers`
 -- AUTO_INCREMENT for table `admin`
 --
 ALTER TABLE `admin`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `parents`
@@ -130,7 +131,7 @@ ALTER TABLE `parents`
 -- AUTO_INCREMENT for table `teachers`
 --
 ALTER TABLE `teachers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -36,11 +36,11 @@
 
    $connForLogs = new PDO($db_name, $db_user_name, $db_user_pass);
 
-   //DATABASE CONNECTION FOR ADMIN & USER LOGS
+   //DATABASE CONNECTION FOR conference
 
-   // $db_name = 'mysql:host=localhost;dbname=Hotel_reservation';
-   // $db_user_name = 'root';
-   // $db_user_pass = '';
+   $db_name = 'mysql:host=localhost;dbname=ptcms_conferenceData';
+   $db_user_name = 'root';
+   $db_user_pass = '';
 
-   // $connForReservation = new PDO($db_name, $db_user_name, $db_user_pass);
+   $connForConference = new PDO($db_name, $db_user_name, $db_user_pass);
 ?>

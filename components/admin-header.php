@@ -46,9 +46,9 @@ include ('../components/alerts.php');
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="conference.php">
                 <div class="sidebar-brand-icon rotate-n-15">
-                    <i class="fas fa-laugh-wink"></i>
+                    <i class="fas fa-school"></i>
                 </div>
                 <div class="sidebar-brand-text mx-3">PTCMS</div>
             </a>
@@ -59,7 +59,7 @@ include ('../components/alerts.php');
             <!-- analytics page -->
             <li class="nav-item active">
                 <a class="nav-link" href="admin.php">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <i class="fas fa-fw fa-chart-line"></i>
                     <span>Dashboard</span></a>
             </li>
 
@@ -74,7 +74,7 @@ include ('../components/alerts.php');
             <!-- my profile page -->
             <li class="nav-item">
                 <a class="nav-link" href="profile.php">
-                    <i class="fas fa-fw fa-user"></i>
+                    <i class="fas fa-fw fa-user-circle"></i>
                     <span>My Profile</span>
                 </a>
             </li>
@@ -82,7 +82,7 @@ include ('../components/alerts.php');
             <!-- parent accounts page -->
             <li class="nav-item">
                 <a class="nav-link" href="parent-accounts.php">
-                    <i class="fas fa-fw fa-user"></i>
+                    <i class="fas fa-fw fa-user-friends"></i>
                     <span>Parent Accounts</span>
                 </a>
             </li>
@@ -90,8 +90,16 @@ include ('../components/alerts.php');
             <!-- teacher accounts page -->
             <li class="nav-item">
                 <a class="nav-link" href="teacher-accounts.php">
-                    <i class="fas fa-fw fa-user"></i>
+                    <i class="fas fa-fw fa-chalkboard-teacher"></i>
                     <span>Teacher Accounts</span>
+                </a>
+            </li>
+
+            <!-- meetings page -->
+            <li class="nav-item">
+                <a class="nav-link" href="conference.php">
+                    <i class="fas fa-fw fa-chalkboard-teacher"></i>
+                    <span>Conference</span>
                 </a>
             </li>
             
@@ -107,28 +115,28 @@ include ('../components/alerts.php');
             <!-- admin logs page -->
             <li class="nav-item">
                 <a class="nav-link" href="admin-logs.php">
-                    <i class="fas fa-fw fa-chart-area"></i>
+                    <i class="fas fa-fw fa-file-alt"></i>
                     <span>My Logs</span></a>
             </li>
 
             <!-- parent logs page -->
             <li class="nav-item">
                 <a class="nav-link" href="parent-logs.php">
-                    <i class="fas fa-fw fa-table"></i>
+                    <i class="fas fa-fw fa-file-alt"></i>
                     <span>Parent Logs</span></a>
             </li>
 
             <!-- teacher logs page -->
             <li class="nav-item">
                 <a class="nav-link" href="teacher-logs.php">
-                    <i class="fas fa-fw fa-table"></i>
+                    <i class="fas fa-fw fa-file-alt"></i>
                     <span>Teacher Logs</span></a>
             </li>
 
             <!-- logout -->
             <li class="nav-item">
                 <a class="nav-link" href="#" id="logout">
-                    <i class="fas fa-fw fa-table"></i>
+                    <i class="fas fa-fw fa-sign-out-alt"></i>
                     <span>Logout</span></a>
             </li>
 

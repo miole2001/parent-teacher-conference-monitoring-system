@@ -1,24 +1,5 @@
 <?php
-include('../components/admin-header.php');
-
-// HANDLE DELETE REQUEST
-if (isset($_POST['delete_account'])) {
-    $delete_id = $_POST['delete_id'];
-
-    $verify_delete = $connForAccounts->prepare("SELECT * FROM `parents` WHERE id = ?");
-    $verify_delete->execute([$delete_id]);
-
-    if ($verify_delete->rowCount() > 0) {
-        $delete_account = $connForAccounts->prepare("DELETE FROM `parents` WHERE id = ?");
-        if ($delete_account->execute([$delete_id])) {
-            $success_msg[] = 'Account deleted!';
-        } else {
-            $error_msg[] = 'Error deleting Account.';
-        }
-    } else {
-        $warning_msg[] = 'Account already deleted!';
-    }
-}
+include('../components/teacher-header.php');
 
 $parent_accounts = $connForAccounts->query("SELECT * FROM `parents`")->fetchAll(PDO::FETCH_ASSOC);
 
@@ -57,9 +38,6 @@ $parent_accounts = $connForAccounts->query("SELECT * FROM `parents`")->fetchAll(
                                 <th>Name</th>
                                 <th>Child Name</th>
                                 <th>Email</th>
-                                <th>Password</th>
-                                <th>Date Registered</th>
-                                <th>Action(s)</th>
                             </tr>
                         </thead>
                         <tfoot>
@@ -69,9 +47,6 @@ $parent_accounts = $connForAccounts->query("SELECT * FROM `parents`")->fetchAll(
                                 <th>Name</th>
                                 <th>Child Name</th>
                                 <th>Email</th>
-                                <th>Password</th>
-                                <th>Date Registered</th>
-                                <th>Action(s)</th>
                             </tr>
                         </tfoot>
                         <tbody>
@@ -85,15 +60,6 @@ $parent_accounts = $connForAccounts->query("SELECT * FROM `parents`")->fetchAll(
                                     <td><?php echo ($account['name']); ?></td>
                                     <td><?php echo ($account['student_name']); ?></td>
                                     <td><?php echo ($account['email']); ?></td>
-                                    <td><?php echo ($account['password']); ?></td>
-                                    <td><?php echo ($account['date_registered']); ?></td>
-                                    <td>
-                                        <form method="POST" action="" class="delete-form">
-                                            <input type="hidden" name="delete_id" value="<?php echo ($account['id']); ?>">
-                                            <input type="hidden" name="delete_account" value="1">
-                                            <button type="button" class="btn btn-danger btn-sm delete-btn">Delete</button>
-                                        </form>
-                                    </td>
                                 </tr>
                             <?php endforeach; ?>
                         </tbody>
@@ -121,28 +87,6 @@ $parent_accounts = $connForAccounts->query("SELECT * FROM `parents`")->fetchAll(
 
 <?php include("../components/scripts.php"); ?>
 
-<script>
-    // Delete confirmation
-        $('.delete-btn').on('click', function() {
-            const form = $(this).closest('.delete-form');
-            const reviewId = form.find('input[name="delete_id"]').val();
-
-            Swal.fire({
-                title: 'Are you sure?',
-                text: "This action cannot be undone!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, delete it!'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    console.log("Deleting log ID: " + reviewId); // Debug log
-                    form.submit(); // Submit the form if confirmed
-                }
-            });
-        });
-</script>
 
 </body>
 

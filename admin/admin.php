@@ -1,4 +1,30 @@
-<?php include("../components/admin-header.php"); ?>
+<?php 
+
+    include("../components/admin-header.php"); 
+
+
+    $parent_accounts = $connForAccounts->query("SELECT * FROM `parents`")->fetchAll(PDO::FETCH_ASSOC);
+
+    // Fetch the number of teachers
+    $query = "SELECT COUNT(*) AS teachers_count FROM `teachers`";
+    $run_query = $connForAccounts->prepare($query);
+    $run_query->execute();
+    $teachers_count = $run_query->fetch(PDO::FETCH_ASSOC)['teachers_count'];
+
+    // Fetch the number of parents
+    $query = "SELECT COUNT(*) AS parents_count FROM `parents`";
+    $run_query = $connForAccounts->prepare($query);
+    $run_query->execute();
+    $parents_count = $run_query->fetch(PDO::FETCH_ASSOC)['parents_count'];
+
+    // Fetch the number of conferences
+    $query = "SELECT COUNT(*) AS conference_count FROM `conference`";
+    $run_query = $connForConference->prepare($query);
+    $run_query->execute();
+    $conference_count = $run_query->fetch(PDO::FETCH_ASSOC)['conference_count'];
+
+
+?>
 
 
 <!-- Main Content -->
@@ -19,83 +45,63 @@
         <!-- Content Row -->
         <div class="row">
 
-            <!-- Earnings (Monthly) Card Example -->
+            <!-- Total number of teachers -->
             <div class="col-xl-3 col-md-6 mb-4">
                 <div class="card border-left-primary shadow h-100 py-2">
                     <div class="card-body">
                         <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
                                 <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                    Earnings (Monthly)</div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800">$40,000</div>
+                                    Teachers
+                                </div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                    <?php echo $teachers_count; ?>
+                                </div>
                             </div>
                             <div class="col-auto">
-                                <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                                <i class="fas fa-chalkboard-teacher fa-2x text-gray-300"></i>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Earnings (Monthly) Card Example -->
+            <!-- Total number of parents -->
             <div class="col-xl-3 col-md-6 mb-4">
                 <div class="card border-left-success shadow h-100 py-2">
                     <div class="card-body">
                         <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
                                 <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                    Earnings (Annual)</div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800">$215,000</div>
+                                    Parents
+                                </div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                    <?php echo $parents_count; ?>
+                                </div>
                             </div>
                             <div class="col-auto">
-                                <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                                <i class="fas fa-user-friends fa-2x text-gray-300"></i>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Earnings (Monthly) Card Example -->
-            <div class="col-xl-3 col-md-6 mb-4">
-                <div class="card border-left-info shadow h-100 py-2">
-                    <div class="card-body">
-                        <div class="row no-gutters align-items-center">
-                            <div class="col mr-2">
-                                <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Tasks
-                                </div>
-                                <div class="row no-gutters align-items-center">
-                                    <div class="col-auto">
-                                        <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">50%</div>
-                                    </div>
-                                    <div class="col">
-                                        <div class="progress progress-sm mr-2">
-                                            <div class="progress-bar bg-info" role="progressbar"
-                                                style="width: 50%" aria-valuenow="50" aria-valuemin="0"
-                                                aria-valuemax="100"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-auto">
-                                <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Pending Requests Card Example -->
+            <!-- Total number of conferences -->
             <div class="col-xl-3 col-md-6 mb-4">
                 <div class="card border-left-warning shadow h-100 py-2">
                     <div class="card-body">
                         <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
                                 <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                                    Pending Requests</div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
+                                    Conferences
+                                </div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                    <?php echo $conference_count; ?>
+                                </div>
                             </div>
                             <div class="col-auto">
-                                <i class="fas fa-comments fa-2x text-gray-300"></i>
+                                <i class="fas fa-calendar-check fa-2x text-gray-300"></i>
                             </div>
                         </div>
                     </div>
@@ -113,39 +119,46 @@
                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                         <thead>
                             <tr>
+                                <th>#</th>
+                                <th>Profile</th>
                                 <th>Name</th>
-                                <th>Position</th>
-                                <th>Office</th>
-                                <th>Age</th>
-                                <th>Start date</th>
-                                <th>Salary</th>
+                                <th>Child Name</th>
+                                <th>Email</th>
+                                <th>Password</th>
+                                <th>Date Registered</th>
                             </tr>
                         </thead>
                         <tfoot>
                             <tr>
+                                <th>#</th>
+                                <th>Profile</th>
                                 <th>Name</th>
-                                <th>Position</th>
-                                <th>Office</th>
-                                <th>Age</th>
-                                <th>Start date</th>
-                                <th>Salary</th>
+                                <th>Child Name</th>
+                                <th>Email</th>
+                                <th>Password</th>
+                                <th>Date Registered</th>
                             </tr>
                         </tfoot>
                         <tbody>
-                            <tr>
-                                <td>Tiger Nixon</td>
-                                <td>System Architect</td>
-                                <td>Edinburgh</td>
-                                <td>61</td>
-                                <td>2011/04/25</td>
-                                <td>$320,800</td>
-                            </tr>
+                            <?php
+                            $count = 1;
+                            foreach ($parent_accounts as $account):
+                            ?>
+                                <tr>
+                                    <td><?php echo $count++; ?></td>
+                                    <td><img src="../images/profile/<?php echo ($account['image']); ?>" alt="Image" style="width: 100px; height: auto;"></td>
+                                    <td><?php echo ($account['name']); ?></td>
+                                    <td><?php echo ($account['student_name']); ?></td>
+                                    <td><?php echo ($account['email']); ?></td>
+                                    <td><?php echo ($account['password']); ?></td>
+                                    <td><?php echo ($account['date_registered']); ?></td>
+                                </tr>
+                            <?php endforeach; ?>
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
-
     </div>
     <!-- /.container-fluid -->
 

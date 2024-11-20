@@ -64,14 +64,14 @@ if (isset($_POST['submit'])) {
                             $log_stmt->execute([$email, $action_type, 'teacher']);
 
                             setcookie('user_id', $fetch['id'], time() + 60 * 60 * 24 * 30, '/');
-                            header('Location: teacher/teacher.php');
+                            header('Location: teacher/conference.php');
                             exit();
                         } elseif ($role === 'parent') {
                             $log_stmt = $connForLogs->prepare("INSERT INTO parent_logs (email, activity_type, user_type) VALUES (?, ?, ?)");
                             $log_stmt->execute([$email, $action_type, 'parent']);
 
                             setcookie('user_id', $fetch['id'], time() + 60 * 60 * 24 * 30, '/');
-                            header('Location: parent/parent.php');
+                            header('Location: parent/conference.php');
                             exit();
                         }
                     } else {

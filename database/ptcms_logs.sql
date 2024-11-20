@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Nov 17, 2024 at 07:12 PM
+-- Generation Time: Nov 20, 2024 at 03:50 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.0.28
 
@@ -40,8 +40,10 @@ CREATE TABLE `admin_logs` (
 --
 
 INSERT INTO `admin_logs` (`id`, `email`, `activity_type`, `user_type`, `timestamp`) VALUES
-(1, 'admin@gmail.com', 'Logout', 'admin', '2024-11-17 17:44:49'),
-(2, 'admin@gmail.com', 'Logout', 'admin', '2024-11-17 17:45:24');
+(1, 'admin@gmail.com', 'Login', 'admin', '2024-11-20 11:18:26'),
+(2, 'admin@gmail.com', 'Login', 'admin', '2024-11-20 14:31:25'),
+(3, 'admin@gmail.com', 'Login', 'admin', '2024-11-20 14:48:17'),
+(4, 'admin@gmail.com', 'Logout', 'admin', '2024-11-20 14:48:37');
 
 -- --------------------------------------------------------
 
@@ -57,6 +59,14 @@ CREATE TABLE `parent_logs` (
   `timestamp` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `parent_logs`
+--
+
+INSERT INTO `parent_logs` (`id`, `email`, `activity_type`, `user_type`, `timestamp`) VALUES
+(1, 'parent@gmail.com', 'Login', 'parent', '2024-11-19 10:01:47'),
+(2, 'parent@gmail.com', 'Login', 'parent', '2024-11-20 13:05:17');
+
 -- --------------------------------------------------------
 
 --
@@ -70,6 +80,21 @@ CREATE TABLE `teacher_logs` (
   `user_type` varchar(50) NOT NULL,
   `timestamp` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `teacher_logs`
+--
+
+INSERT INTO `teacher_logs` (`id`, `email`, `activity_type`, `user_type`, `timestamp`) VALUES
+(1, 'teacher@gmail.com', 'Login', 'teacher', '2024-11-19 10:01:11'),
+(2, 'teacher@gmail.com', 'Logout', 'teacher', '2024-11-19 10:01:19'),
+(3, 'teacher@gmail.com', 'Logout', 'teacher', '2024-11-19 10:01:49'),
+(4, 'teacher@gmail.com', 'Logout', 'teacher', '2024-11-20 11:31:04'),
+(5, 'teacher@gmail.com', 'Login', 'teacher', '2024-11-20 11:31:11'),
+(6, 'teacher@gmail.com', 'Logout', 'teacher', '2024-11-20 13:05:06'),
+(7, 'teacher@gmail.com', 'Logout', 'teacher', '2024-11-20 14:31:19'),
+(8, 'teacher@gmail.com', 'Login', 'teacher', '2024-11-20 14:48:44'),
+(9, 'teacher@gmail.com', 'Logout', 'teacher', '2024-11-20 14:49:01');
 
 --
 -- Indexes for dumped tables
@@ -101,19 +126,19 @@ ALTER TABLE `teacher_logs`
 -- AUTO_INCREMENT for table `admin_logs`
 --
 ALTER TABLE `admin_logs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `parent_logs`
 --
 ALTER TABLE `parent_logs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `teacher_logs`
 --
 ALTER TABLE `teacher_logs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
