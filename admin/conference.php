@@ -95,7 +95,7 @@
                             <h2 class="card-title text-uppercase text-center"><?php echo($conference['meeting_title']); ?></h2>
                             <p class="card-text">Teacher/Instructor: <?php echo($conference['teacher_name']); ?></p>
                             <p class="card-text">Year Level: <?php echo($conference['year_level']); ?></p>
-                            <p class="card-text">Date: <?php echo($conference['date_of_meeting']); ?></p>
+                            <p class="card-text">Date: <?php echo date("M j, Y", strtotime($conference['date_of_meeting'])); ?></p>
                             <p class="card-text">Time: <?php echo date("g:i A", strtotime($conference['time_meeting_starts'])); ?></p>
                             <p class="card-text">Status: <?php echo($conference['status']); ?></p>
                             <!-- Button trigger modal -->
