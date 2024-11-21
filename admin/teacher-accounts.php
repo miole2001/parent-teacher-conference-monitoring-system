@@ -125,51 +125,51 @@ $teacher_accounts = $connForAccounts->query("SELECT * FROM `teachers`")->fetchAl
     <!-- /.container-fluid -->
 
     <!-- Modal for Adding New Teacher -->
-<div class="modal fade" id="teacherModal" tabindex="-1" role="dialog" aria-labelledby="teacherModalLabel" aria-hidden="true">
-    <div class="modal-dialog d-flex align-items-center" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="teacherModalLabel">Add New Teacher</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
+    <div class="modal fade" id="teacherModal" tabindex="-1" role="dialog" aria-labelledby="teacherModalLabel" aria-hidden="true">
+        <div class="modal-dialog d-flex align-items-center" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="teacherModalLabel">Add New Teacher</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
 
-            <div class="modal-body">
-                <!-- Form for adding new teacher -->
-                <form action="" method="post">
+                <div class="modal-body">
+                    <!-- Form for adding new teacher -->
+                    <form action="" method="post">
 
-                    <div class="form-group">
-                        <label for="image">Upload Picture</label>
-                        <input type="file" class="form-control" id="image" name="image" placeholder="Upload Image" required>
-                    </div>
+                        <div class="form-group">
+                            <label for="image">Upload Picture</label>
+                            <input type="file" class="form-control" id="image" name="image" placeholder="Upload Image" required>
+                        </div>
 
-                    <div class="form-group">
-                        <label for="name">Full Name</label>
-                        <input type="text" class="form-control" id="name" name="name" placeholder="Enter Name" required>
-                    </div>
+                        <div class="form-group">
+                            <label for="name">Full Name</label>
+                            <input type="text" class="form-control" id="name" name="name" placeholder="Enter Name" required>
+                        </div>
 
-                    <div class="form-group">
-                        <label for="email">Email</label>
-                        <input type="email" class="form-control" id="email" name="email" placeholder="Enter Email" required>
-                    </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" class="form-control" id="email" name="email" placeholder="Enter Email" required>
+                        </div>
 
-                    <div class="form-group">
-                        <label for="password">Password</label>
-                        <input type="password" class="form-control" id="password" name="password" placeholder="Enter Password" required>
-                    </div>
-                    
-                    <input type="hidden" name="add_teacher" value="1">
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <input type="password" class="form-control" id="password" name="password" placeholder="Enter Password" required>
+                        </div>
+                        
+                        <input type="hidden" name="add_teacher" value="1">
 
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Save changes</button>
-                    </div>
-                </form>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Save changes</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
 </div>
 <!-- End of Main Content -->
