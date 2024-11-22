@@ -1,34 +1,36 @@
 <?php 
-    ob_start(); 
-    
-    include("../components/parent-header.php"); 
+ob_start(); 
+include("../components/parent-header.php");
 
-    // Handle the form submission for adding a new conference
-    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['attendance'])) {
-        $teacher = $_POST['teacherName'];
-        $title = $_POST['title'];
-        $date = $_POST['date'];
-        $parent_name = $_POST['parent_name'];
-        $student_name = $_POST['student_name'];
-        $year_level = $_POST['year-level'];
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['attendance'])) {
+    $teacher = $_POST['teacherName'];
+    $date = $_POST['date'];
+    $parent_name = $_POST['parent_name'];
+    $student_name = $_POST['student_name'];
 
-        $insert_sql = "INSERT INTO `conference_attendance` (`meeting_title`, `student_name`, `parent_name`, `teacher_name`, `date_of_meeting`, `year_level`) 
-        VALUES (?, ?, ?, ?, ?, ?)";
+    $check_sql = "SELECT * FROM `conference_attendance` WHERE `parent_name` = ? AND `teacher_name` = ? AND `date_of_meeting` = ?";
+    $stmt_check = $connForConference->prepare($check_sql);
+    $stmt_check->execute([$parent_name, $teacher, $date]);
+    $existing_submission = $stmt_check->fetch(PDO::FETCH_ASSOC);
+
+    if ($existing_submission) {
+        echo "<script>alert('You have already registered for this schedule.');</script>";
+    } else {
+        $insert_sql = "INSERT INTO `conference_attendance` (`student_name`, `parent_name`, `teacher_name`, `date_of_meeting`) 
+        VALUES (?, ?, ?, ?)";
         $stmt_insert = $connForConference->prepare($insert_sql);
-        $stmt_insert->execute([$title, $student_name, $parent_name, $teacher, $date, $year_level]);
+        $stmt_insert->execute([$student_name, $parent_name, $teacher, $date]);
 
+        // Redirect back to the conference page
         header('Location: conference.php');
         exit;
-
     }
+}
 
-    $conference_list = $connForConference->query("SELECT * FROM `conference`")->fetchAll(PDO::FETCH_ASSOC);
+$conference_list = $connForConference->query("SELECT * FROM `conference` WHERE status = 'Available'")->fetchAll(PDO::FETCH_ASSOC);
 
-    $parent_display = $connForAccounts->query("SELECT * FROM `parents`")->fetchAll(PDO::FETCH_ASSOC);
-
+$parent_display = $connForAccounts->query("SELECT * FROM `parents`")->fetchAll(PDO::FETCH_ASSOC);
 ?>
-
-
 
 
 <!-- Main Content -->
@@ -50,17 +52,16 @@
             <?php foreach ($conference_list as $conference): ?>
                 <div class="col-sm-3 mb-3">
                     <div class="card">
+                        <img class="card-img-top" src="<?php echo "../images/profile/" . $conference['image']; ?>" alt="Card image cap">
                         <div class="card-body">
-                            <h2 class="card-title text-uppercase text-center"><?php echo($conference['meeting_title']); ?></h2>
-                            <p class="card-text">Teacher/Instructor: <?php echo($conference['teacher_name']); ?></p>
-                            <p class="card-text">Year Level: <?php echo($conference['year_level']); ?></p>
-                            <p class="card-text">Date: <?php echo date("M j, Y", strtotime($conference['date_of_meeting'])); ?></p>
-                            <p class="card-text">Time: <?php echo date("g:i A", strtotime($conference['time_meeting_starts'])); ?></p>
+                        <h2 class="card-title text-uppercase text-center"><?php echo($conference['teacher_name']); ?></h2>
+                            <p class="card-text">Vacant Date: <?php echo date("M j, Y", strtotime($conference['date_of_meeting'])); ?></p>
+                            <p class="card-text">Vacant Start Time: <?php echo date("g:i A", strtotime($conference['available_time_in'])); ?></p>
+                            <p class="card-text">Vacant Until: <?php echo date("g:i A", strtotime($conference['available_time_out'])); ?></p>
                             <p class="card-text">Status: <?php echo($conference['status']); ?></p>
-
                             <!-- Button trigger modal -->
                             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addConference">
-                                Attend
+                                Schedule
                             </button>
                         </div>
                     </div>
@@ -84,11 +85,6 @@
                 <form action="" method="post" enctype="multipart/form-data">
 
                     <div class="form-group">
-                        <label for="title">Meeting Title</label>
-                        <input type="text" class="form-control" id="title" name="title" value="<?php echo($conference['meeting_title']); ?>" readonly>
-                    </div>
-
-                    <div class="form-group">
                         <label for="teacherName">Teacher Name</label>
                         <input type="text" class="form-control" id="teacherName" name="teacherName" value="<?php echo($conference['teacher_name']); ?>" readonly>
                     </div>
@@ -108,11 +104,6 @@
                     <div class="form-group">
                         <label for="date">Meeting Date</label>
                         <input type="date" class="form-control" id="date" name="date" value="<?php echo($conference['date_of_meeting']); ?>" readonly>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="year-level">Year Level</label>
-                        <input type="text" class="form-control" id="year-level" name="year-level" value="<?php echo($conference['year_level']); ?>" readonly>
                     </div>
 
             </div>

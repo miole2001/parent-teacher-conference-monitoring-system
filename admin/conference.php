@@ -5,16 +5,16 @@
 
     // Handle the form submission for adding a new conference
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_conference'])) {
-        $teacher = $_POST['teacherName'];
-        $title = $_POST['title'];
+        $image = $_FILES['image']['name'];
+        $teacherName = $_POST['teacherName'];
         $date = $_POST['date'];
-        $time = $_POST['time'];
-        $year_level = $_POST['year-level'];
+        $time_in = $_POST['time_in'];
+        $time_out = $_POST['time_out'];
 
-        $insert_sql = "INSERT INTO `conference` (`teacher_name`, `meeting_title`, `date_of_meeting`, `time_meeting_starts`, `year_level`, `status`) 
-        VALUES (?, ?, ?, ?, ?, 'ongoing')";
+        $insert_sql = "INSERT INTO `conference` (`image`, `teacher_name`, `date_of_meeting`, `available_time_in`, `available_time_out`, `status`) 
+        VALUES (?, ?, ?, ?, ?, 'Available')";
         $stmt_insert = $connForConference->prepare($insert_sql);
-        $stmt_insert->execute([$teacher, $title, $date, $time, $year_level]);
+        $stmt_insert->execute([$image, $teacherName, $date, $time_in, $time_out]);
 
         header('Location: conference.php');
         exit;
@@ -23,16 +23,16 @@
 
     // Handle the form submission for updating an existing conference
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['edit_conference'])) {
-        $title = $_POST['title'];
+        $teacherName = $_POST['teacherName'];
         $date = $_POST['date'];
-        $time = $_POST['time'];
-        $year_level = $_POST['year-level'];
+        $time_in = $_POST['time_in'];
+        $time_out = $_POST['time_out'];
         $status = $_POST['status'];
         $conference_id = $_POST['conference_id'];
 
-        $update_sql = "UPDATE `conference` SET `meeting_title` = ?, `date_of_meeting` = ?, `time_meeting_starts` = ?, `year_level` = ?, `status` = ? WHERE `id` = ?";
+        $update_sql = "UPDATE `conference` SET `teacher_name` = ?, `date_of_meeting` = ?, `available_time_in` = ?, `available_time_out` = ?, `status` = ? WHERE `id` = ?";
         $stmt_update = $connForConference->prepare($update_sql);
-        $stmt_update->execute([$title, $date, $time, $year_level, $status, $conference_id]);
+        $stmt_update->execute([$teacherName, $date, $time_in, $time_out, $status, $conference_id]);
 
         // Redirect to the conferences page after update
         header('Location: conference.php');
@@ -57,12 +57,6 @@
 
     $conference_list = $connForConference->query("SELECT * FROM `conference`")->fetchAll(PDO::FETCH_ASSOC);
 
-    // $teacher_name = $_SESSION['name'];
-    // $query = "SELECT * FROM `conference` WHERE teacher_name = :teacher_name";
-    // $stmt = $connForConference->prepare($query);
-    // $stmt->execute(['teacher_name' => $teacher_name]);
-    // $conference_list = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
 ?>
 
 
@@ -83,7 +77,7 @@
             <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
             <!-- Button trigger modal -->
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addConference">
-            Add New Conference
+            Add Schedule
             </button>
         </div>
 
@@ -91,15 +85,15 @@
             <?php foreach ($conference_list as $conference): ?>
                 <div class="col-sm-3 mb-3">
                     <div class="card">
+                        <img class="card-img-top" src="<?php echo "../images/profile/" . $conference['image']; ?>" alt="Card image cap">
                         <div class="card-body">
-                            <h2 class="card-title text-uppercase text-center"><?php echo($conference['meeting_title']); ?></h2>
-                            <p class="card-text">Teacher/Instructor: <?php echo($conference['teacher_name']); ?></p>
-                            <p class="card-text">Year Level: <?php echo($conference['year_level']); ?></p>
-                            <p class="card-text">Date: <?php echo date("M j, Y", strtotime($conference['date_of_meeting'])); ?></p>
-                            <p class="card-text">Time: <?php echo date("g:i A", strtotime($conference['time_meeting_starts'])); ?></p>
+                            <h2 class="card-title text-uppercase text-center"><?php echo($conference['teacher_name']); ?></h2>
+                            <p class="card-text">Vacant Date: <?php echo date("M j, Y", strtotime($conference['date_of_meeting'])); ?></p>
+                            <p class="card-text">Vacant Start Time: <?php echo date("g:i A", strtotime($conference['available_time_in'])); ?></p>
+                            <p class="card-text">Vacant Until: <?php echo date("g:i A", strtotime($conference['available_time_out'])); ?></p>
                             <p class="card-text">Status: <?php echo($conference['status']); ?></p>
                             <!-- Button trigger modal -->
-                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editConference">
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editConference<?php echo $conference['id']; ?>">
                                 Edit Information
                             </button>
                             <!-- Delete conference Button -->
@@ -109,6 +103,61 @@
                         </div>
                     </div>
                 </div>
+
+
+                <!-- edit conference Modal -->
+                <div class="modal fade" id="editConference<?php echo $conference['id']; ?>" tabindex="-1" role="dialog" aria-labelledby="editConferenceLabel<?php echo $conference['id']; ?>" aria-hidden="true">
+                    <div class="modal-dialog d-flex align-items-center" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="editConferenceLabel<?php echo $conference['id']; ?>">Edit Schedule</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <img class="card-img-top" src="<?php echo "../images/profile/" . $conference['image']; ?>" alt="Card image cap">
+                            <div class="modal-body">
+                                <form action="" method="post" enctype="multipart/form-data">
+                                    <input type="hidden" name="conference_id" value="<?php echo ($conference['id']); ?>">
+
+                                    <div class="form-group">
+                                        <label for="teacherName">Teacher Name</label>
+                                        <input type="text" class="form-control" id="teacherName" name="teacherName" value="<?php echo ($conference['teacher_name']); ?>" >
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="date">Meeting Date</label>
+                                        <input type="date" class="form-control" id="date" name="date" value="<?php echo ($conference['date_of_meeting']); ?>">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="time_in">Meeting Time</label>
+                                        <input type="time" class="form-control" id="time_in" name="time_in" value="<?php echo ($conference['available_time_in']); ?>">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="time_out">Meeting Time</label>
+                                        <input type="time" class="form-control" id="time_out" name="time_out" value="<?php echo ($conference['available_time_out']); ?>">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="status">Status</label>
+                                        <select class="form-control" id="status" name="status">
+                                            <option value="Occupied" <?php echo ($conference['status'] === 'Occupied') ? 'selected' : ''; ?>>Occupied</option>
+                                            <option value="Available" <?php echo ($conference['status'] === 'Available') ? 'selected' : ''; ?>>Available</option>
+                                        </select>
+                                    </div>
+
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-primary" name="edit_conference">Save changes</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
             <?php endforeach; ?>
         </div>
     </div>
@@ -120,7 +169,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="addConferenceTitle">Add New Coference</h5>
+                <h5 class="modal-title" id="addConferenceTitle">Add Schedule</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
                 </button>
@@ -129,28 +178,28 @@
                 <form action="" method="post" enctype="multipart/form-data">
 
                     <div class="form-group">
+                        <label for="image">Teacher Profile</label>
+                        <input type="file" class="form-control" id="image" name="image" required>
+                    </div>
+
+                    <div class="form-group">
                         <label for="teacherName">Teacher Name</label>
-                        <input type="text" class="form-control" id="teacherName" name="teacherName" value="<?php echo ($teacher_display[0]['name']); ?>" readonly>
+                        <input type="text" class="form-control" id="teacherName" name="teacherName" required>
                     </div>
 
                     <div class="form-group">
-                        <label for="title">Meeting Title</label>
-                        <input type="text" class="form-control" id="title" name="title" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="date">Meeting Date</label>
+                        <label for="date">Vacant Date</label>
                         <input type="date" class="form-control" id="date" name="date" required>
                     </div>
 
                     <div class="form-group">
-                        <label for="time">Meeting Time</label>
-                        <input type="time" class="form-control" id="time" name="time" required>
+                        <label for="time_in">Vacant Time Start</label>
+                        <input type="time" class="form-control" id="time_in" name="time_in" required>
                     </div>
 
                     <div class="form-group">
-                        <label for="year-level">Year Level</label>
-                        <input type="text" class="form-control" id="year-level" name="year-level" required>
+                        <label for="time_out">Vacant Time End</label>
+                        <input type="time" class="form-control" id="time_out" name="time_out" required>
                     </div>
 
             </div>
@@ -163,65 +212,6 @@
     </div>
 </div>
 
-
-<!-- edit conference Modal -->
-<div class="modal fade" id="editConference" tabindex="-1" role="dialog" aria-labelledby="editConferenceLabel" aria-hidden="true">
-    <div class="modal-dialog d-flex align-items-center" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="editConferenceLabel">Edit Conference</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-
-            <div class="modal-body">
-                <form action="" method="post" enctype="multipart/form-data">
-                    <input type="hidden" name="conference_id" value="<?php echo ($conference['id']); ?>">
-
-                    <div class="form-group">
-                        <label for="teacherName">Teacher Name</label>
-                        <input type="text" class="form-control" id="teacherName" name="teacherName" value="<?php echo ($conference['teacher_name']); ?>" readonly>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="title">Meeting Title</label>
-                        <input type="text" class="form-control" id="title" name="title" value="<?php echo ($conference['meeting_title']); ?>">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="date">Meeting Date</label>
-                        <input type="date" class="form-control" id="date" name="date" value="<?php echo ($conference['date_of_meeting']); ?>">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="time">Meeting Time</label>
-                        <input type="time" class="form-control" id="time" name="time" value="<?php echo ($conference['time_meeting_starts']); ?>">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="year-level">Year Level</label>
-                        <input type="text" class="form-control" id="year-level" name="year-level" value="<?php echo ($conference['year_level']); ?>">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="status">Status</label>
-                        <select class="form-control" id="status" name="status">
-                            <option value="ongoing" <?php echo ($conference['status'] === 'ongoing') ? 'selected' : ''; ?>>Ongoing</option>
-                            <option value="completed" <?php echo ($conference['status'] === 'completed') ? 'selected' : ''; ?>>Completed</option>
-                            <option value="cancelled" <?php echo ($conference['status'] === 'cancelled') ? 'selected' : ''; ?>>Cancelled</option>
-                        </select>
-                    </div>
-
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary" name="edit_conference">Save changes</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
 
 
 
